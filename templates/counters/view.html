@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+	</head>
+	<body>
+		<h1>{{ counter|title }}</h1>
+		<h2>{{ total }}</h2>
+		<button onclick="handle_add()">Increment</button>
+		<button onclick="handle_delete()">Delete</button><br>
+		<br>
+		<a href="/counter/">Back</a>
+		<br>
+		<canvas id="chart" width="400" height="400"></canvas>
+		<script>
+			function handle_add() {
+
+				var req = new XMLHttpRequest();
+				req.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.location.reload();
+					}
+				}
+				req.open('GET', '/counter/{{ counter }}/add/');
+				req.send();
+			}
+
+			function handle_delete() {
+				var ok = confirm("You're about to delete the counter `{{ counter }}`.\nThis operation cannot be undone. Are you really sure?");
+				if (ok) {
+					var req = new XMLHttpRequest();
+					req.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							document.location.href = '/counter/';
+						}
+					}
+					req.open('GET', '/counter/{{ counter }}/delete/');
+					req.send();
+				}
+			}
+
+			var data = {{ data|safe }};
+			var labels = {{ labels|safe }};
+			console.log(labels);
+			var ctx = document.getElementById('chart').getContext('2d');
+			var chart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: '{{ counter|title }} Count',
+						data: data,
+						borderWidth: 1,
+					}]
+				},
+				options: {
+					scales: {
+						y: {
+							beginAtZero: true,
+							ticks: {
+								stepSize: 1,
+							}
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

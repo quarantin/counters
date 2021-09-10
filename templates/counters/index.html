@@ -1,0 +1,31 @@
+<html>
+	<body>
+		<h1>Your Counters</h1>
+		{% for counter in counters %}
+		<a href="/counter/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.value }}</a><br>
+		{% endfor %}
+		<br>
+		<input type="text" id="counter">
+		<button onclick="button_handler()">New Counter</button>
+		<script>
+
+			function button_handler() {
+				var counter = document.getElementById('counter').value;
+				if (counter.includes('/')) {
+					alert('Your new list name can\'t contain a slash character!');
+				}
+				else {
+					document.location.href = '/counter/' + counter;
+				}
+			}
+
+			document.getElementById('counter').addEventListener('keyup', function(event) {
+				if (event.code === 'Enter') {
+					event.preventDefault();
+					button_handler();
+				}
+			});
+
+		</script>
+	</body>
+</html>

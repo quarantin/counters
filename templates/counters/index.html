@@ -2,7 +2,7 @@
 	<body>
 		<h1>Your Counters</h1>
 		{% for counter in counters %}
-		<a href="/counter/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.value }}</a><br>
+		<a href="/counters/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.value }}</a><br>
 		{% endfor %}
 		<br>
 		<input type="text" id="counter">
@@ -15,7 +15,7 @@
 					alert('Your new list name can\'t contain a slash character!');
 				}
 				else {
-					document.location.href = '/counter/' + counter;
+					document.location.href = '/counters/' + counter;
 				}
 			}
 

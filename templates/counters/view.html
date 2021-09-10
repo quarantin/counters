@@ -8,7 +8,7 @@
 		<button onclick="handle_add()">Increment</button>
 		<button onclick="handle_delete()">Delete</button><br>
 		<br>
-		<a href="/counter/">Back</a>
+		<a href="/counters/">Back</a>
 		<br>
 		<canvas id="chart" width="400" height="400"></canvas>
 		<script>
@@ -20,7 +20,7 @@
 						document.location.reload();
 					}
 				}
-				req.open('GET', '/counter/{{ counter }}/add/');
+				req.open('GET', '/counters/{{ counter }}/add/');
 				req.send();
 			}
 
@@ -30,10 +30,10 @@
 					var req = new XMLHttpRequest();
 					req.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
-							document.location.href = '/counter/';
+							document.location.href = '/counters/';
 						}
 					}
-					req.open('GET', '/counter/{{ counter }}/delete/');
+					req.open('GET', '/counters/{{ counter }}/delete/');
 					req.send();
 				}
 			}

@@ -13,6 +13,6 @@ class Counter(models.Model):
 	def __str__(self):
 		return self.name
 
-class Entry(models.Model):
+class Record(models.Model):
 	counter = models.ForeignKey(Counter, on_delete=models.CASCADE)
 	created = models.DateTimeField(default=timezone.now)

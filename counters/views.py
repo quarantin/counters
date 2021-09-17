@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Counter, Entry
+from .models import Counter, Record
 
 import json
 
@@ -11,7 +11,7 @@ def list_counters(request):
 	counters = []
 	all_counters = Counter.objects.filter(user=request.user)
 	for counter in all_counters:
-		entries = Entry.objects.filter(counter=counter)
+		entries = Record.objects.filter(counter=counter)
 		counters.append({ 'name': counter.name, 'value': len(entries) })
 	context = { 'counters': counters }
 	return render(request, 'counters/index.html', context)
@@ -19,7 +19,7 @@ def list_counters(request):
 @login_required
 def view_counter(request, counter):
 	counter, created = Counter.objects.get_or_create(user=request.user, name=counter)
-	entries = Entry.objects.filter(counter=counter)
+	entries = Record.objects.filter(counter=counter)
 	context = { 'counter': counter, 'total': len(entries), 'labels': [], 'data': []}
 
 	dates = {}
@@ -44,8 +44,8 @@ def view_counter(request, counter):
 @login_required
 def increment_counter(request, counter):
 	counter, created = Counter.objects.get_or_create(user=request.user, name=counter)
-	Entry(counter=counter).save()
-	entries = Entry.objects.filter(counter=counter)
+	Record(counter=counter).save()
+	entries = Record.objects.filter(counter=counter)
 	return HttpResponse(len(entries))
 
 @login_required

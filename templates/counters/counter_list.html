@@ -1,14 +1,23 @@
 {% extends "counters/base.html" %}
 {% block body %}
 		<h1>Your Counters</h1>
-		{% for counter in counters %}
-		<a href="/counters/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.value }}</a><br>
+		<ul>
+		{% for counter in object_list %}
+			<li><a href="/counters/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.records }}</a></li>
 		{% endfor %}
+		</ul>
 		<br>
-		<input type="text" id="counter">
-		<button onclick="button_handler()">New Counter</button>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="input-group">
+						<input type="text" id="counter" class="form-control">
+						<button class="btn btn-primary" onclick="button_handler()">New Counter</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script>
-
 			function button_handler() {
 				var counter = document.getElementById('counter').value;
 				if (counter.includes('/')) {

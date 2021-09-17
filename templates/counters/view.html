@@ -1,9 +1,8 @@
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "counters/base.html" %}
+{% block extraheaders %}
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-	</head>
-	<body>
+{% endblock %}
+{% block body %}
 		<h1>{{ counter|title }}</h1>
 		<h2>{{ total }}</h2>
 		<button onclick="handle_add()">Increment</button>
@@ -65,5 +64,4 @@
 				}
 			});
 		</script>
-	</body>
-</html>
+{% endblock %}

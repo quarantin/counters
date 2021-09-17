@@ -1,8 +1,5 @@
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-	</head>
-	<body>
+{% extends "counters/base.html" %}
+{% block body %}
 		<h1>Your Counters</h1>
 		{% for counter in counters %}
 		<a href="/counters/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.value }}</a><br>
@@ -30,5 +27,4 @@
 			});
 
 		</script>
-	</body>
-</html>
+{% endblock %}

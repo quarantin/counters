@@ -1,0 +1,33 @@
+{% extends "counters/base.html" %}
+{% block extraheaders %}
+		{{ form.media }}
+{% endblock %}
+{% block body %}
+		<h1>{{ counter|title }}</h1>
+		<a href="/counters/{{ counter }}/list/">Back</a>
+		<form action="/counters/{{ counter }}/edit/{{ object.pk }}/" method="POST">
+			{% csrf_token %}
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="{{ object.created }}"/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+    </div>
+
+
+			<input type="submit" value="Save" class="btn btn-primary">
+		</form>
+{% endblock %}

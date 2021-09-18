@@ -5,8 +5,8 @@
 {% block body %}
 		<h1>{{ counter|title }}</h1>
 		<a href="/counters/">Back</a>
-		<h2>Total: {{ total }}</h2>
-		<h2>Last: {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</h2>
+		<h3>Total: {{ total }}</h3>
+		<h3>Last: {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</h3>
 		<button class="btn btn-primary" onclick="handle_increment()" title="Increment this counter">Increment</button>
 		<button class="btn btn-primary" onclick="handle_records()" title="Show list of records for this counter">Records</button>
 		<button class="btn btn-primary" onclick="handle_delete()" title="Delete current counter and all related records">Delete</button>

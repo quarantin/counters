@@ -6,6 +6,7 @@
 		<h1>{{ counter|title }}</h1>
 		<a href="/counters/">Back</a>
 		<h2>Total: {{ total }}</h2>
+		<h2>Latest Record: {{ latest_record_date }}</h2>
 		<button class="btn btn-primary" onclick="handle_increment()" title="Increment this counter">Increment</button>
 		<button class="btn btn-primary" onclick="handle_records()" title="Show list of records for this counter">Records</button>
 		<button class="btn btn-primary" onclick="handle_delete()" title="Delete current counter and all related records">Delete</button>

@@ -1,6 +1,6 @@
 {% extends "sbadmin/base.html" %}
 {% block body %}
-		<h1>Your Counters</h1>
+		<h1>Counters</h1>
 		<ul>
 		{% for counter in object_list %}
 			<li><a href="/counters/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.records }}</a></li>

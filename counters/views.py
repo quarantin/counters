@@ -31,7 +31,7 @@ class RecordListView(ListView):
 
 	def get_queryset(self):
 		self.counter = get_object_or_404(Counter, user=self.request.user, name=self.kwargs['counter'])
-		return Record.objects.filter(counter=self.counter)
+		return Record.objects.filter(counter=self.counter).order_by('created')
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)

@@ -99,13 +99,20 @@
             <div id="content">
 
                 <nav class="navbar navbar-light bg-white topbar mb-4 static-top shadow">
-                {% if messages %}
-                    <ul class="messages">
-                    {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
+
+					<!-- Sidebar Toggle (Topbar) -->
+					<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
+
+					{% if messages %}
+						<ul class="messages">
+						{% for message in messages %}
+							<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+
                 </nav>
                 <!-- End of Topbar -->
 

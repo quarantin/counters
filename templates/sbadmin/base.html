@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -20,11 +21,11 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'sbadmin/css/sb-admin-2.min.css' %}" rel="stylesheet">
 
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
     <!-- Bootstrap core JavaScript-->
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="{% static 'sbadmin/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
@@ -37,88 +38,64 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/counters/">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Counters</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Counters -->
-            <li class="nav-item">
-                <a class="nav-link" href="/counters/">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Counters</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - User Settings -->
-            <li class="nav-item">
-                <a class="nav-link" href="/accounts/profile/">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Log Out-->
-            <li class="nav-item">
-                <a class="nav-link" href="/accounts/logout/">
-                    <i class="fas fa-fw fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
-
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column min-vh-100">
 
             <!-- Main Content -->
             <div id="content">
 
-                <nav class="navbar navbar-light bg-white topbar mb-4 static-top shadow">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-					<!-- Sidebar Toggle (Topbar) -->
-					<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-						<i class="fa fa-bars"></i>
-					</button>
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
 
-					{% if messages %}
-						<ul class="messages">
-						{% for message in messages %}
-							<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
+                    <!-- Django Messages -->
+                    {% if messages %}
+                        <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ request.user }}</span>
+                                <img class="img-profile rounded-circle" src="{% static 'sbadmin/img/undraw_profile.svg' %}">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/counters/">
+                                    <i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Counters
+                                </a>
+                                <a class="dropdown-item" href="/accounts/settings/">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/accounts/logout/" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
 
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-{% block body %}{% endblock %}
+                <div class="container-fluid">{% block body %}{% endblock %}
                 </div>
                 <!-- /.container-fluid -->
 
@@ -150,11 +127,14 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="/accounts/logout/">Logout</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="mt-auto"></footer>
 
     <!-- Custom scripts for all pages-->
     <script src="{% static 'sbadmin/js/sb-admin-2.min.js' %}"></script>

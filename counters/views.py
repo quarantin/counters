@@ -63,6 +63,8 @@ class CounterDetailView(DetailView):
 		context = super().get_context_data(**kwargs)
 		records = Record.objects.filter(counter=self.object).order_by('created')
 
+		record = records.last()
+		context['latest_record_date'] = record and record.created or 'No record yet'
 		context['total'] = len(records)
 		context['labels'] = []
 		context['data'] = []

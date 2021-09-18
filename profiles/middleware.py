@@ -8,7 +8,7 @@ class TimezoneMiddleware:
 		self.get_response = get_response
 
 	def __call__(self, request):
-		profile = Profile.objects.get(user=request.user)
+		profile, created = Profile.objects.get_or_create(user=request.user)
 		if profile.timezone:
 			timezone.activate(profile.timezone)
 		else:

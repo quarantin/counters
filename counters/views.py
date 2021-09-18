@@ -64,7 +64,9 @@ class CounterDetailView(DetailView):
 		records = Record.objects.filter(counter=self.object).order_by('created')
 
 		record = records.last()
-		context['latest_record_date'] = record and record.created or 'No record yet'
+		if record:
+			context['latest_record_date'] = record.created
+
 		context['total'] = len(records)
 		context['labels'] = []
 		context['data'] = []

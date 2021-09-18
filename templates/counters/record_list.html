@@ -1,4 +1,5 @@
-{% extends "counters/base.html" %}
+{% extends "sbadmin/base.html" %}
+{% block title %}{{ counter|title }}{% endblock %}
 {% block body %}
 		<h1>{{ counter|title }}</h1>
 		<a href="/counters/{{ counter }}/">Back</a>

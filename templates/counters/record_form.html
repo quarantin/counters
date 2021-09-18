@@ -1,6 +1,9 @@
-{% extends "counters/base.html" %}
+{% extends "sbadmin/base.html" %}
+{% block title %}{{ counter|title }}{% endblock %}
 {% block extraheaders %}
-		{{ form.media }}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" crossorigin="anonymous" />
 {% endblock %}
 {% block body %}
 		<h1>{{ counter|title }}</h1>
@@ -8,7 +11,7 @@
 		<form action="/counters/{{ counter }}/edit/{{ object.pk }}/" method="POST">
 			{% csrf_token %}
 
-
+			<!-- Date Input -->
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">

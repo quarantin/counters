@@ -1,8 +1,19 @@
 {% extends 'sbadmin/base.html' %}
 {% block body %}
+		<h1>Settings</h1>
 		<form method="POST">
 			{% csrf_token %}
-			{{ form }}
-			<input type="submit" value="Save">
+
+			<!--
+			<div class="form-group col-3">
+				{{ form.timezone.label_tag }} <select class="form-control">{% for x, y in form.fields.timezone.choices %}
+					<option value="{{ x }}"{% if x == form.timezone.value %} selected{% endif %}>{{ y }}</option>{% endfor %}
+				</select>
+			</div>
+			-->
+			<div class="form-group">
+				{{ form.timezone.label_tag }} {{ form.timezone }}
+			</div>
+			<button type="submit" class="btn btn-primary">Save</button>
 		</form>
 {% endblock %}

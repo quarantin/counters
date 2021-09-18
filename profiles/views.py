@@ -7,7 +7,7 @@ from .models import Profile
 class ProfileUpdateView(SuccessMessageMixin, UpdateView):
 	model = Profile
 	fields = [ 'timezone' ]
-	success_url = '/accounts/profile/'
+	success_url = '/accounts/settings/'
 	success_message = "Your settings have been saved successfully"
 
 	def get_object(self):

@@ -25,7 +25,7 @@ from .views import HomeRedirectView
 urlpatterns = [
 	path('', HomeRedirectView.as_view()),
 	path('accounts/', include('django.contrib.auth.urls')),
-	path('accounts/profile/', ProfileUpdateView.as_view()),
+	path('accounts/settings/', ProfileUpdateView.as_view()),
 	path('admin/', admin.site.urls),
 	path('counters/', include('counters.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

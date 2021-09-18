@@ -19,8 +19,11 @@ from django.contrib import admin
 from django.urls import include, path
 
 from profiles.views import ProfileUpdateView
+from .views import HomeRedirectView
+
 
 urlpatterns = [
+	path('', HomeRedirectView.as_view()),
 	path('accounts/', include('django.contrib.auth.urls')),
 	path('accounts/profile/', ProfileUpdateView.as_view()),
 	path('admin/', admin.site.urls),

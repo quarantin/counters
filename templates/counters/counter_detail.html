@@ -6,10 +6,12 @@
 		<h1>{{ counter|title }}</h1>
 		<a href="/counters/">Back</a>
 		<div><b>Total: {{ total }}</b></div>
+		<div><b>Price: {{ total_price }}{{ object.get_currency_display }}</b></div>
 		<div><b>Last: {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</b></div>
 		<br>
 		<button class="btn btn-primary" onclick="handle_increment()" title="Increment this counter">Increment</button>
 		<button class="btn btn-primary" onclick="handle_records()" title="Show list of records for this counter">Records</button>
+		<button class="btn btn-primary" onclick="handle_config()" title="Edit this counter configuration">Configure</button>
 		<button class="btn btn-primary" onclick="handle_delete()" title="Delete current counter and all related records">Delete</button>
 		<canvas id="chart" width="400" height="400"></canvas>
 		<script>
@@ -27,6 +29,10 @@
 
 			function handle_records() {
 				document.location.href = '/counters/{{ counter }}/list/';
+			}
+
+			function handle_config() {
+				document.location.href = '/counters/{{ counter }}/config/';
 			}
 
 			function handle_delete() {

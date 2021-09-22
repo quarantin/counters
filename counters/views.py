@@ -40,6 +40,24 @@ class RecordListView(ListView):
 		return context
 
 @method_decorator(login_required, name='dispatch')
+class CounterUpdateView(UpdateView):
+
+	model = Counter
+	fields = [ 'name', 'unit_price', 'currency' ]
+
+	def get_object(self):
+		obj, created = Counter.objects.get_or_create(user=self.request.user, name=self.kwargs['slug'])
+		return obj
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['counter'] = get_object_or_404(Counter, user=self.request.user, name=self.kwargs['slug'])
+		return context
+
+	def get_success_url(self):
+		return '/counters/' + self.object.name + '/'
+
+@method_decorator(login_required, name='dispatch')
 class RecordUpdateView(UpdateView):
 
 	model = Record
@@ -68,6 +86,7 @@ class CounterDetailView(DetailView):
 			context['latest_record_date'] = record.created
 
 		context['total'] = len(records)
+		context['total_price'] = len(records) * self.object.unit_price
 		context['labels'] = []
 		context['data'] = []
 

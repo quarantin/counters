@@ -1,0 +1,25 @@
+{% extends "sbadmin/base.html" %}
+{% block body %}
+		<h1>{{ counter|title }}</h1>
+		<a href="/counters/{{ counter }}/">Back</a>
+		<form action="/counters/{{ counter }}/config/" method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				{{ form.name.errors }}
+				{{ form.name.label_tag }} {{ form.name }}
+			</div>
+			<div class="form-group">
+				{{ form.limit.errors }}
+				{{ form.limit.label_tag }} {{ form.limit}}
+			</div>
+			<div class="form-group">
+				{{ form.unit_price.errors }}
+				{{ form.unit_price.label_tag }} {{ form.unit_price }}
+			</div>
+			<div class="form-group">
+				{{ form.currency.errors }}
+				{{ form.currency.label_tag }} {{ form.currency }}
+			</div>
+			<input type="submit" value="Save" class="btn btn-primary">
+		</form>
+{% endblock %}

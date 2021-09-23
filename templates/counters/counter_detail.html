@@ -12,7 +12,6 @@
 		<button class="btn btn-primary" onclick="handle_increment()" title="Increment this counter">Increment</button>
 		<button class="btn btn-primary" onclick="handle_records()" title="Show list of records for this counter">Records</button>
 		<button class="btn btn-primary" onclick="handle_config()" title="Edit this counter configuration">Configure</button>
-		<button class="btn btn-primary" onclick="handle_delete()" title="Delete current counter and all related records">Delete</button>
 		<canvas id="chart" width="400" height="400"></canvas>
 		<script>
 			function handle_increment() {
@@ -33,20 +32,6 @@
 
 			function handle_config() {
 				document.location.href = '/counters/{{ counter }}/config/';
-			}
-
-			function handle_delete() {
-				var ok = confirm("You're about to delete the counter `{{ counter }}`.\nThis operation cannot be undone. Are you really sure?");
-				if (ok) {
-					var req = new XMLHttpRequest();
-					req.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-							document.location.href = '/counters/';
-						}
-					}
-					req.open('GET', '/counters/{{ counter }}/delete/');
-					req.send();
-				}
 			}
 
 			var data = {{ data|safe }};

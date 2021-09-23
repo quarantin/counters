@@ -20,6 +20,25 @@
 				{{ form.currency.errors }}
 				{{ form.currency.label_tag }} {{ form.currency }}
 			</div>
-			<input type="submit" value="Save" class="btn btn-primary">
+			<button class="btn btn-primary" type="submit" title="Save this counter configuration">Save</button>
+			<button class="btn btn-primary" onclick="handle_delete()" title="Delete current counter and all related records">Delete</button>
 		</form>
+
+		<script>
+			function handle_delete() {
+				var ok = confirm("You're about to delete the counter `{{ counter }}`.\nThis operation cannot be undone. Are you really sure?");
+				if (ok) {
+					var req = new XMLHttpRequest();
+					req.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							document.location.href = '/counters/';
+						}
+					}
+					req.open('GET', '/counters/{{ counter }}/delete/');
+					req.send();
+				}
+			}
+		</script>
+
+
 {% endblock %}

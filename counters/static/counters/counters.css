@@ -1,0 +1,11 @@
+h1.back {
+	float: left;
+}
+
+a.back {
+	float: right;
+}
+
+div.back {
+	clear: both;
+}

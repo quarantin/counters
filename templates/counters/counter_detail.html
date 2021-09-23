@@ -7,7 +7,9 @@
 		<a class="back" href="/counters/">Back</a>
 		<div class="back"></div>
 		<div><b>Total: {{ total }}</b></div>
+	{% if object.unit_price != 0 %}
 		<div><b>Price: {{ total_price }}{{ object.get_currency_display }}</b></div>
+	{% endif %}
 		<div><b>Last: {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</b></div>
 		<br>
 		<button class="btn btn-primary" onclick="handle_increment()" title="Increment this counter">Increment</button>

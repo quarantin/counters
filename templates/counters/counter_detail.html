@@ -3,8 +3,9 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 {% endblock %}
 {% block body %}
-		<h1>{{ counter|title }}</h1>
-		<a href="/counters/">Back</a>
+		<h1 class="back">{{ counter|title }}</h1>
+		<a class="back" href="/counters/">Back</a>
+		<div class="back"></div>
 		<div><b>Total: {{ total }}</b></div>
 		<div><b>Price: {{ total_price }}{{ object.get_currency_display }}</b></div>
 		<div><b>Last: {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</b></div>

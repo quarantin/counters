@@ -6,11 +6,11 @@
 		<h1 class="back">{{ counter|title }}</h1>
 		<a class="back" href="/counters/">Back</a>
 		<div class="back"></div>
-		<div><b>Total: {{ total }}</b></div>
+		<div><b>Total:</b> {{ total }}</div>
 	{% if object.unit_price != 0 %}
-		<div><b>Price: {{ total_price }}{{ object.get_currency_display }}</b></div>
+		<div><b>Price:</b> {{ total_price }}{{ object.get_currency_display }}</div>
 	{% endif %}
-		<div><b>Last: {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</b></div>
+		<div><b>Last:</b> {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</div>
 		<br>
 		<button class="btn btn-primary" onclick="handle_increment()" title="Increment this counter">Increment</button>
 		<button class="btn btn-primary" onclick="handle_records()" title="Show list of records for this counter">Records</button>

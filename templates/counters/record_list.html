@@ -3,8 +3,6 @@
 		<h1 class="back">{{ counter|title }}</h1>
 		<a class="back" href="/counters/{{ counter }}/">Back</a>
 		<div class="back"></div>
-		<div><b>Total: {{ total }}</b></div>
-		<br>
 		<ul>
 		{% for record in object_list %}
 			<li><a href="/counters/{{ counter }}/edit/{{ record.id }}/">{{ record.created|date:"Y-m-d H:i:s" }}</a></li>

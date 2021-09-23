@@ -46,8 +46,7 @@ class CounterUpdateView(UpdateView):
 	fields = [ 'name', 'unit_price', 'currency' ]
 
 	def get_object(self):
-		obj, created = Counter.objects.get_or_create(user=self.request.user, name=self.kwargs['slug'])
-		return obj
+		return get_object_or_404(Counter, user=self.request.user, name=self.kwargs['slug'])
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)

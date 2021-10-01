@@ -10,14 +10,12 @@
 			No counters
 		{% endif %}
 		</ul>
+		{% if shared_counters %}
 		<h1>Shared Counters</h1>
 		<ul>
-		{% if shared_counters %}
 		{% for counter in shared_counters %}
 			<li><a href="/counters/{{ counter.pk }}/">{{ counter.name|title }}: {{ counter.records }}</a></li>
 		{% endfor %}
-		{% else %}
-			No shared counters
 		{% endif %}
 		</ul>
 		<br>

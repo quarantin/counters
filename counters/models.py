@@ -25,6 +25,11 @@ class Counter(models.Model):
 	currency = models.CharField(choices=CURRENCY_CHOICES, default=CURRENCY_DOLLAR, max_length=8)
 	shared = models.BooleanField(default=False)
 	shared_token = models.CharField(max_length=128, default='')
+	max_value = models.DecimalField(default=-1, max_digits=12, decimal_places=2)
+	min_value = models.DecimalField(default=0, max_digits=12, decimal_places=2)
+	increment = models.DecimalField(default=1, max_digits=12, decimal_places=2)
+	incrementable = models.BooleanField(default=True)
+	decrementable = models.BooleanField(default=False)
 	created = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
@@ -63,6 +68,7 @@ class CounterSubscription(models.Model):
 class Record(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	counter = models.ForeignKey(Counter, on_delete=models.CASCADE)
+	increment = models.DecimalField(default=1, max_digits=12, decimal_places=2)
 	created = models.DateTimeField(default=timezone.now)
 
 class CounterSubscriptionForm(forms.ModelForm):

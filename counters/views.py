@@ -83,7 +83,7 @@ class CounterUpdateView(UpdateView):
 
 	def get_object(self):
 		obj = get_object_or_404(Counter, user=self.request.user, pk=self.kwargs['counter'])
-		if not is_allowed(self.request, obj):
+		if is_allowed(self.request, obj):
 			return obj
 
 		raise Http404()

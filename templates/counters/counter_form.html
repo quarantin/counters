@@ -22,6 +22,26 @@
 				{{ form.currency.label_tag }} {{ form.currency }}
 			</div>
 			<div class="form-group">
+				{{ form.incrementable.errors }}
+				{{ form.incrementable.label_tag }} {{ form.incrementable }}
+			</div>
+			<div class="form-group">
+				{{ form.decrementable.errors }}
+				{{ form.decrementable.label_tag }} {{ form.decrementable }}
+			</div>
+			<div class="form-group">
+				{{ form.increment.errors }}
+				{{ form.increment.label_tag }} {{ form.increment }}
+			</div>
+			<div class="form-group">
+				{{ form.max_value.errors }}
+				{{ form.max_value.label_tag }} {{ form.max_value }}
+			</div>
+			<div class="form-group">
+				{{ form.min_value.errors }}
+				{{ form.min_value.label_tag }} {{ form.min_value }}
+			</div>
+			<div class="form-group">
 				{{ form.shared.errors }}
 				{{ form.shared.label_tag }} {{ form.shared }}
 			</div>

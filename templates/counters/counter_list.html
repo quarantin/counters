@@ -2,9 +2,23 @@
 {% block body %}
 		<h1>Counters</h1>
 		<ul>
+		{% if object_list %}
 		{% for counter in object_list %}
 			<li><a href="/counters/{{ counter.pk }}/">{{ counter.name|title }}: {{ counter.records }}</a></li>
 		{% endfor %}
+		{% else %}
+			No counters
+		{% endif %}
+		</ul>
+		<h1>Shared Counters</h1>
+		<ul>
+		{% if shared_counters %}
+		{% for counter in shared_counters %}
+			<li><a href="/counters/{{ counter.pk }}/">{{ counter.name|title }}: {{ counter.records }}</a></li>
+		{% endfor %}
+		{% else %}
+			No shared counters
+		{% endif %}
 		</ul>
 		<br>
 		<div class="row">

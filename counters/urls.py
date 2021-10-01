@@ -8,6 +8,7 @@ urlpatterns = [
 	path('<int:counter>/', views.CounterDetailView.as_view()),
 	path('<int:counter>/config/', views.CounterUpdateView.as_view()),
 	path('<int:counter>/increment/', views.increment_counter),
+	path('<int:counter>/decrement/', views.decrement_counter),
 	path('<int:counter>/list/', views.RecordListView.as_view()),
 	path('<int:counter>/delete/', views.delete_counter),
 	path('<int:counter>/delete/<int:record>/', views.delete_record),

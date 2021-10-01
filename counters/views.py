@@ -10,15 +10,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Counter, CounterSubscription, CounterSubscriptionForm, Record, RecordForm
 
-import json
+import simplejson as json
 
 
-def is_allowed(user, counter):
+def is_allowed(request, counter):
 
-	if user == counter.user:
+	if request.user == counter.user:
 		return True
 
-	subscriptions = CounterSubscription.objects.filter(user=user, counter=counter)
+	subscriptions = CounterSubscription.objects.filter(user=request.user, counter=counter)
 	if len(subscriptions) > 0:
 		return True
 
@@ -31,17 +31,22 @@ class CounterListView(ListView):
 	paginage_by = 20
 
 	def get_queryset(self):
-		queryset1 = Counter.objects.filter(user=self.request.user)
-		for counter in queryset1:
-			records = Record.objects.filter(counter=counter)
-			counter.records = len(records)
+		queryset = Counter.objects.filter(user=self.request.user, shared=False).order_by('name')
+		for counter in queryset:
+			counter.records = len(Record.objects.filter(counter=counter))
+		return queryset
+
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(*args, **kwargs)
 		subscriptions = CounterSubscription.objects.filter(user=self.request.user).values('counter')
-		counters = [ x['counter'] for x in subscriptions ]
-		queryset2 = Counter.objects.filter(shared=True, id__in=counters)
-		for counter in queryset2:
+		own_counters = Counter.objects.filter(user=self.request.user, shared=True).values('id')
+		counters = [ x['counter'] for x in subscriptions ] + [ x['id'] for x in own_counters ]
+		queryset = Counter.objects.filter(shared=True, id__in=counters).order_by('name')
+		for counter in queryset:
 			records = Record.objects.filter(counter=counter)
 			counter.records = len(records)
-		return queryset1|queryset2
+		context['shared_counters'] = queryset
+		return context
 
 @method_decorator(login_required, name='dispatch')
 class RecordListView(ListView):
@@ -63,7 +68,18 @@ class RecordListView(ListView):
 class CounterUpdateView(UpdateView):
 
 	model = Counter
-	fields = [ 'name', 'unit_price', 'currency', 'shared' ]
+	fields = [
+		'name',
+		'unit_price',
+		'currency',
+		'incrementable',
+		'decrementable',
+		'increment',
+		'max_value',
+		'min_value',
+		'shared',
+
+	]
 
 	def get_object(self):
 		return get_object_or_404(Counter, user=self.request.user, pk=self.kwargs['counter'])
@@ -82,7 +98,7 @@ class CounterUpdateView(UpdateView):
 class RecordUpdateView(UpdateView):
 
 	model = Record
-	fields = [ 'created' ]
+	fields = [ 'increment', 'created' ]
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -101,11 +117,23 @@ class CounterDetailView(DetailView):
 		context = super().get_context_data(**kwargs)
 		records = Record.objects.filter(counter=self.object).order_by('created')
 
+		context['total'] = 0
+		for record in records:
+			context['total'] += record.increment
+
+		if context['total'] == int(context['total']):
+			context['total'] = int(context['total'])
+
+		if self.object.max_value != -1 and context['total'] >= self.object.max_value:
+			context['max_value_reached'] = True
+
+		if context['total'] <= self.object.min_value:
+			context['min_value_reached'] = True
+
 		record = records.last()
 		if record:
 			context['latest_record_date'] = record.created
 
-		context['total'] = len(records)
 		if self.object.unit_price:
 			context['total_price'] = len(records) * self.object.unit_price
 		context['labels'] = []
@@ -116,7 +144,7 @@ class CounterDetailView(DetailView):
 			date = record.created.strftime('%Y-%m-%d')
 			if date not in dates:
 				dates[date] = 0
-			dates[date] += 1
+			dates[date] += record.increment
 
 		for day, value in dates.items():
 			context['data'].append(value)
@@ -141,8 +169,18 @@ def new_counter(request, counter):
 @login_required
 def increment_counter(request, counter):
 	counter = get_object_or_404(Counter, pk=counter)
-	if is_allowed(request.user, counter):
-		Record(counter=counter, user=request.user).save()
+	if is_allowed(request, counter):
+		Record(counter=counter, user=request.user, increment=counter.increment).save()
+		records = Record.objects.filter(counter=counter)
+		return HttpResponse('OK')
+
+	return HttpResponse('KO', status_code=403)
+
+@login_required
+def decrement_counter(request, counter):
+	counter = get_object_or_404(Counter, pk=counter)
+	if is_allowed(request, counter):
+		Record(counter=counter, user=request.user, increment=-counter.increment).save()
 		records = Record.objects.filter(counter=counter)
 		return HttpResponse('OK')
 
@@ -152,7 +190,7 @@ def increment_counter(request, counter):
 def delete_counter(request, counter):
 
 	counter = get_object_or_404(Counter, pk=counter)
-	if is_allowed(request.user, counter):
+	if is_allowed(request, counter):
 		try:
 			counter.delete()
 
@@ -167,7 +205,7 @@ def delete_counter(request, counter):
 def delete_record(request, counter, record):
 
 	counter = get_object_or_404(Counter, pk=counter)
-	if is_allowed(request.user, counter):
+	if is_allowed(request, counter):
 		try:
 			record = Record.objects.get(counter=counter, pk=record)
 			record.delete()

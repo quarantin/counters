@@ -12,14 +12,19 @@
 		{% endif %}
 		<div><b>Last:</b> {% if latest_record_date %}{{ latest_record_date|date:"Y-m-d H:i:s" }}{% else %}No record yet!{% endif %}</div>
 		<br>
-		<button class="btn btn-primary" onclick="handle_increment()" title="Increment this counter">Increment</button>
+		{% if object.incrementable %}
+		<button class="btn btn-primary" onclick="handle_increment('increment')" title="Increment this counter"{% if max_value_reached %} disabled{% endif %}>Increment</button>
+		{% endif %}
+		{% if object.decrementable %}
+		<button class="btn btn-primary" onclick="handle_increment('decrement')" title="Decrement this counter"{% if min_value_reached %} disabled{% endif %}>Decrement</button>
+		{% endif %}
 		{% if is_owner %}
-		<button class="btn btn-primary" onclick="handle_records()" title="Show list of records for this counter">Records</button>
 		<button class="btn btn-primary" onclick="handle_config()" title="Edit this counter configuration">Configure</button>
+		<button class="btn btn-primary" onclick="handle_records()" title="Show list of records for this counter">Records</button>
 		{% endif %}
 		<canvas id="chart" width="400" height="400"></canvas>
 		<script>
-			function handle_increment() {
+			function handle_increment(action) {
 
 				var req = new XMLHttpRequest();
 				req.onreadystatechange = function() {
@@ -27,17 +32,17 @@
 						document.location.reload();
 					}
 				}
-				req.open('GET', '/counters/{{ object.pk }}/increment/');
+				req.open('GET', '/counters/{{ object.pk }}/' + action + '/');
 				req.send();
 			}
 
 			{% if is_owner %}
-			function handle_records() {
-				document.location.href = '/counters/{{ object.pk }}/list/';
-			}
-
 			function handle_config() {
 				document.location.href = '/counters/{{ object.pk }}/config/';
+			}
+
+			function handle_records() {
+				document.location.href = '/counters/{{ object.pk }}/list/';
 			}
 			{% endif %}
 

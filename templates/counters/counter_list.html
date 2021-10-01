@@ -3,7 +3,7 @@
 		<h1>Counters</h1>
 		<ul>
 		{% for counter in object_list %}
-			<li><a href="/counters/{{ counter.name }}/">{{ counter.name|title }}: {{ counter.records }}</a></li>
+			<li><a href="/counters/{{ counter.pk }}/">{{ counter.name|title }}: {{ counter.records }}</a></li>
 		{% endfor %}
 		</ul>
 		<br>
@@ -24,7 +24,15 @@
 					alert('Your new list name can\'t contain a slash character!');
 				}
 				else {
-					document.location.href = '/counters/' + counter;
+
+					var req = new XMLHttpRequest();
+					req.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							document.location.reload();
+						}
+					}
+					req.open('GET', '/counters/new/' + counter + '/');
+					req.send();
 				}
 			}
 

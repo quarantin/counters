@@ -1,9 +1,9 @@
 {% extends "sbadmin/base.html" %}
 {% block body %}
 		<h1 class="back">{{ counter|title }}</h1>
-		<a class="back" href="/counters/{{ counter }}/">Back</a>
+		<a class="back" href="/counters/{{ counter.pk }}/">Back</a>
 		<div class="back"></div>
-		<form action="/counters/{{ counter }}/config/" method="POST">
+		<form action="/counters/{{ counter.pk }}/config/" method="POST">
 			{% csrf_token %}
 			<div class="form-group">
 				{{ form.name.errors }}
@@ -21,6 +21,15 @@
 				{{ form.currency.errors }}
 				{{ form.currency.label_tag }} {{ form.currency }}
 			</div>
+			<div class="form-group">
+				{{ form.shared.errors }}
+				{{ form.shared.label_tag }} {{ form.shared }}
+			</div>
+			{% if shared_url %}
+			<div class="form-group">
+				Shared URL: {{ shared_url }}
+			</div>
+			{% endif %}
 			<button class="btn btn-primary" type="submit" title="Save this counter configuration">Save</button>
 			<button class="btn btn-primary" onclick="handle_delete()" title="Delete current counter and all related records">Delete</button>
 		</form>
@@ -35,7 +44,7 @@
 							document.location.href = '/counters/';
 						}
 					}
-					req.open('GET', '/counters/{{ counter }}/delete/');
+					req.open('GET', '/counters/{{ counter.pk }}/delete/');
 					req.send();
 				}
 			}

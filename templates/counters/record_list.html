@@ -1,11 +1,11 @@
 {% extends "sbadmin/base.html" %}
 {% block body %}
 		<h1 class="back">{{ counter|title }}</h1>
-		<a class="back" href="/counters/{{ counter }}/">Back</a>
+		<a class="back" href="/counters/{{ counter.pk }}/">Back</a>
 		<div class="back"></div>
 		<ul>
 		{% for record in object_list %}
-			<li><a href="/counters/{{ counter }}/edit/{{ record.id }}/">{{ record.created|date:"Y-m-d H:i:s" }}</a></li>
+			<li><a href="/counters/{{ counter.pk }}/edit/{{ record.id }}/">{{ record.created|date:"Y-m-d H:i:s" }}</a></li>
 		{% endfor %}
 		</ul>
 		{% include "counters/pagination.html" %}

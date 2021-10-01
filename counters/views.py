@@ -134,21 +134,17 @@ class CounterDetailView(DetailView):
 		if record:
 			context['latest_record_date'] = record.created
 
-		if self.object.unit_price:
-			context['total_price'] = len(records) * self.object.unit_price
-
-			if context['total_price'] == int(context['total_price']):
-				context['total_price'] = int(context['total_price'])
-
 		context['labels'] = []
 		context['data'] = []
 
 		dates = {}
+		total_count = 0
 		for record in records:
 			date = record.created.strftime('%Y-%m-%d')
 			if date not in dates:
 				dates[date] = 0
 			dates[date] += record.increment
+			total_count += record.increment
 
 		for day, value in dates.items():
 			context['data'].append(value)
@@ -157,6 +153,11 @@ class CounterDetailView(DetailView):
 		context['data'] = json.dumps(context['data'])
 		context['labels'] = json.dumps(context['labels'])
 		context['is_owner'] = self.request.user == self.object.user
+
+		if self.object.unit_price:
+			context['total_price'] = total_count * self.object.unit_price
+			if context['total_price'] == int(context['total_price']):
+				context['total_price'] = int(context['total_price'])
 
 		return context
 

@@ -83,8 +83,10 @@ class CounterUpdateView(UpdateView):
 
 	def get_object(self):
 		obj = get_object_or_404(Counter, user=self.request.user, pk=self.kwargs['counter'])
-		if is_allowed(self.request, obj):
+		if not is_allowed(self.request, obj):
 			return obj
+
+		raise Http404()
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -116,6 +118,8 @@ class CounterDetailView(DetailView):
 		obj = get_object_or_404(Counter, pk=self.kwargs['counter'])
 		if is_allowed(self.request, obj):
 			return obj
+
+		raise Http404()
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)

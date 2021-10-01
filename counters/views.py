@@ -137,8 +137,8 @@ class CounterDetailView(DetailView):
 		if self.object.unit_price:
 			context['total_price'] = len(records) * self.object.unit_price
 
-		if context['total_price'] == int(context['total_price']):
-			context['total_price'] = int(context['total_price'])
+			if context['total_price'] == int(context['total_price']):
+				context['total_price'] = int(context['total_price'])
 
 		context['labels'] = []
 		context['data'] = []

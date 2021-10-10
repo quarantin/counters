@@ -6,7 +6,7 @@
 {% endblock %}
 {% block body %}
 		<h1 class="back">{{ counter|title }}</h1>
-		<a class="back" href="/counters/{{ counter.pk }}/list/">Back</a>
+		<a class="back" href="javascript:history.back()">Back</a>
 		<div class="back"></div>
 		<form action="/counters/{{ counter.pk }}/edit/{{ object.pk }}/" method="POST">
 			{% csrf_token %}

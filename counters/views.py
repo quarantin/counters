@@ -148,7 +148,7 @@ class CounterDetailView(DetailView):
 		dates = {}
 		total_count = 0
 		for record in records:
-			date = record.created.strftime('%Y-%m-%d')
+			date = timezone.localtime(record.created).strftime('%Y-%m-%d')
 			if date not in dates:
 				dates[date] = 0
 			dates[date] += record.increment
